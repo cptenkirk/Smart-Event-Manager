@@ -1,1 +1,1 @@
-<h1>AI-supported information and booking portal with RAG infrastructure</h1>
+<h2>Management of physical lab resources and workshop events</h2>
