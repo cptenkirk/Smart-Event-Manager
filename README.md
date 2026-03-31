@@ -1,1 +1,1 @@
-<h2>Management of physical lab resources and workshop events</h2>
+<h2>Entwicklung eines KI-gestützten Informations- und Buchungsportals mit RAG-Infrastruktur für das Digital Impact Lab</h2>
