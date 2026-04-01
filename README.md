@@ -2,7 +2,7 @@
 
 Dieses Projekt ist mein offizielles Abschlussprojekt zur IHK-Prüfung als Fachinformatiker für Anwendungsentwicklung. Es kombiniert moderne Webtechnologien mit einer leistungsfähigen Retrieval Augmented Generation (RAG) Architektur.
 
-# KI-gestütztes Informations- & Buchungsportal (RAG)
+
 
 ## 📌 Projekt-Übersicht
 Dieses System automatisiert den Zugriff auf interne Wissensdatenbanken und koppelt diese mit einer Buchungslogik. 
