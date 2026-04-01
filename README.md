@@ -19,3 +19,10 @@ Die Anwendung ist modular aufgebaut:
 - **Anforderungsmanagement:** Erstellung von Lasten- und Pflichtenheft gemäß IHK-Standard.
 - **Datenmodellierung:** Entwurf von Vektor-Einbettungen (Embeddings) und Metadaten-Strukturen.
 - **DevOps:** Containerisierung der Komponenten mittels Docker für konsistente Entwicklungsumgebungen.
+
+## 🛠 Tech Stack & Infrastructure
+- **Frontend:** Responsive Web-Interface (optimiert für Kiosk-Modus auf Raspberry Pi)
+- **Orchestrierung:** n8n (Self-hosted auf VServer via Docker)
+- **KI-Modell:** Google Gemini Pro via REST-API
+- **Datenbank:** Vektorbasierter Speicher für Kontext-Relevanz
+- **Reverse Proxy:** Nginx Proxy Manager für SSL & Security
