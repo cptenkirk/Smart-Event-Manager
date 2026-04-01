@@ -1,1 +1,84 @@
+version: '3.7'
 
+services:
+  # 1. OpenProject Web- und Worker-Prozesse (Nur Assets gemountet)
+  openproject:
+    image: openproject/openproject:13
+    container_name: openproject
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SECRET_KEY_BASE: "your-secret-key-here"
+      OPENPROJECT_HTTPS: "true"
+      OPENPROJECT_HSTS: "true"
+      OPENPROJECT_HOST__NAME: "openproject.aifellers.com"
+      # DB-Konfiguration für OpenProject (muss auf DB-Service zeigen)
+      DATABASE_URL: "postgresql://user:password@db:5432/dbname"
+      OPENPROJECT_SENDER_EMAIL: "noreply@aifellers.com"
+      # OpenProject wird die DB-Initialisierung dem DB-Service überlassen
+    volumes:
+      # Nur die Assets (Dateien, Anhänge) mounten
+      - /var/lib/openproject/assets:/var/openproject/assets
+    depends_on:
+      - db
+
+  # 2. PostgreSQL Datenbank (Definiert eigenes Volume, kein Host-Mount im OpenProject-Service)
+  db:
+    image: postgres:13
+    container_name: openproject_db
+    restart: always
+    # Wichtig: Legen Sie hier ein POSTGRES_PASSWORD fest, um die Initialisierung zu ermöglichen
+    environment:
+      POSTGRES_PASSWORD: "your-db-password"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "openproject"
+    volumes:
+      # Die DB verwendet einen *internen* Volume-Mount, der vom Image automatisch verwaltet wird,
+      # um die Berechtigungskonflikte auf dem Host zu vermeiden.
+      - pgdata:/var/lib/postgresql/data
+
+# 3. n8n Automatisierung
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=n8n.aifellers.com
+      - N8N_PROTOCOL=https
+      - N8N_SECURE_COOKIE=false
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://n8n.aifellers.com/
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+  # 4. Nginx Proxy Manager (Der Türsteher)
+  nginx-proxy:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx_proxy
+    restart: always
+    ports:
+      - '80:80'   # HTTP
+      - '81:81'   # Admin-Panel
+      - '443:443' # HTTPS
+    volumes:
+      - ./proxy_data:/data
+      - ./letsencrypt:/etc/letsencrypt
+
+
+# 5. NEU: Die Website für eujourney.aifellers.com
+  eu-website:
+    image: nginx:alpine
+    container_name: eujourney_site
+    restart: always
+    ports:
+      - "8085:80"
+    volumes:
+      # Hier binden wir deinen spezifischen Ordner ein
+      - /workstation/eu-integration:/usr/share/nginx/html:ro
+
+volumes:
+  pgdata:
+  n8n_data:
