@@ -15,7 +15,7 @@ Die Anwendung ist modular aufgebaut:
 - **Vector-Storage:** ChromaDB zur semantischen Indizierung von PDF/Text-Daten
 - **Integration:** REST-Schnittstellen zur Anbindung an Drittsysteme
 
-## 🛠 Software Engineering Aspekte (Relevant für Anrechnung)
+## 🛠 Software Engineering Aspekte
 - **Anforderungsmanagement:** Erstellung von Lasten- und Pflichtenheft gemäß IHK-Standard.
 - **Datenmodellierung:** Entwurf von Vektor-Einbettungen (Embeddings) und Metadaten-Strukturen.
 - **DevOps:** Containerisierung der Komponenten mittels Docker für konsistente Entwicklungsumgebungen.
