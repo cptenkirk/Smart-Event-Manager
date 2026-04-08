@@ -7,7 +7,7 @@ from langchain_core.runnables import RunnablePassthrough
 from vector import retriever # Importiert den Retriever aus vector.py
 
 # Die LLM-Instanz (wird im Code als 'llm' verwendet)
-llm = OllamaLLM(model="llama3.1")
+llm = OllamaLLM(model="llama3.1", base_url="217.154.163.10:11434")
 
 print()
 print('Bot is running...')
@@ -21,14 +21,16 @@ def format_docs(docs):
 # --- 2. Prompt-Template definieren ---
 # Verwende {context} als Platzhalter für den formatierten Text
 template = """
-Du bist ein hilfsbereiter Assistent, der Fragen des Benutzers auf der Grundlage des bereitgestellten Kontextes beantwortet.
-Antworte kurz und prägnant.
+Du bist der offizielle Assistent des Digital Impact Labs. 
+Deine Aufgabe ist es, Besucher höflich über Workshops und Buchungen zu informieren.
+Nutze ausschließlich den bereitgestellten Kontext. Wenn du etwas nicht weißt, sag es offen.
 
-Verwende den folgenden Kontext:
+KONTEXT:
 {context}
 
-Frage: {question}
-"""
+BENUTZERFRAGE: {question}
+
+HÖFLICHE ANTWORT:"""
 prompt = ChatPromptTemplate.from_template(template)
 
 # --- 3. Die korrigierte RAG-Kette definieren ---
