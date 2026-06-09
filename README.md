@@ -2,6 +2,8 @@
 
 > 🎯 **IHK-Prüfungsstatus:** Dies ist mein offizielles Abschlussprojekt zur IHK-Prüfung als Fachinformatiker für Anwendungsentwicklung. Der **praktische Teil (Projektarbeit, Dokumentation, Präsentation und Fachgespräch) wurde im Juni 2026 erfolgreich bestanden**.
 
+Dieses System kombiniert moderne Webtechnologien mit einer leistungsfähigen Retrieval Augmented Generation (RAG) Architektur auf einem eigenen vServer.
+
 Dieses Projekt ist mein offizielles Abschlussprojekt zur IHK-Prüfung als Fachinformatiker für Anwendungsentwicklung. Es kombiniert moderne Webtechnologien mit einer leistungsfähigen Retrieval Augmented Generation (RAG) Architektur.
 
 
