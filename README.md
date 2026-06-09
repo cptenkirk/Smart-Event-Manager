@@ -25,7 +25,7 @@ Die Anwendung ist modular aufgebaut:
 - **DevOps:** Containerisierung der Komponenten mittels Docker für konsistente Entwicklungsumgebungen.
 
 ## 🛠 Tech Stack & Infrastructure
-- **Frontend:** Responsive Web-Interface (optimiert für Kiosk-Modus auf Raspberry Pi)
+- **Frontend:** Responsive Web-Interface
 - **Orchestrierung:** n8n (Self-hosted auf VServer via Docker)
 - **KI-Modell:** Ollama via REST-API
 - **Datenbank:** Vektorbasierter Speicher für Kontext-Relevanz
