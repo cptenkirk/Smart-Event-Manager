@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminbuchung</title>
+    <link rel="stylesheet" href="booking.css">
+</head>
+<body>
+
+    <h1>Verfügbare Termine</h1>
+
+    <div id="message" class="hidden"></div>
+
+    <table>
+        <caption>Wöchentliche Terminübersicht</caption>
+        <thead>
+            <tr>
+                <th>Uhrzeit</th>
+                <th>Montag</th>
+                <th>Dienstag</th>
+                <th>Mittwoch</th>
+                <th>Donnerstag</th>
+                <th>Freitag</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>09:00 - 10:00</th>
+                <td data-time="09:00" data-day="Montag" class="available"></td>
+                <td data-time="09:00" data-day="Dienstag" class="booked">Gebucht</td>
+                <td data-time="09:00" data-day="Mittwoch" class="available"></td>
+                <td data-time="09:00" data-day="Donnerstag" class="available"></td>
+                <td data-time="09:00" data-day="Freitag" class="booked">Gebucht</td>
+            </tr>
+            <tr>
+                <th>10:00 - 11:00</th>
+                <td data-time="10:00" data-day="Montag" class="available"></td>
+                <td data-time="10:00" data-day="Dienstag" class="available"></td>
+                <td data-time="10:00" data-day="Mittwoch" class="available"></td>
+                <td data-time="10:00" data-day="Donnerstag" class="available"></td>
+                <td data-time="10:00" data-day="Freitag" class="available"></td>
+            </tr>
+            <tr>
+                <th>11:00 - 12:00</th>
+                <td data-time="11:00" data-day="Montag" class="booked">Gebucht</td>
+                <td data-time="11:00" data-day="Dienstag" class="available"></td>
+                <td data-time="11:00" data-day="Mittwoch" class="booked">Gebucht</td>
+                <td data-time="11:00" data-day="Donnerstag" class="available"></td>
+                <td data-time="11:00" data-day="Freitag" class="available"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Termin buchen</h2>
+            <p>Sie möchten einen Termin am <span id="modalDay"></span> um <span id="modalTime"></span> Uhr buchen.</p>
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label for="email">Ihre E-Mail-Adresse:</label>
+                    <input type="email" id="email" name="email" required placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="service">Leistung auswählen:</label>
+                    <select id="service" name="service" required style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;">
+                        <option value="" disabled selected>Bitte wählen</option>
+                        <option value="CAD-Design">CAD-Design</option>
+                        <option value="KI-Workshops">KI-Workshops</option>
+                        <option value="3D-Drucken">3D-Drucken</option>
+                        <option value="Virtual-Reality">Virtual-Reality</option>
+                    </select>
+                </div>
+                <button type="submit">Jetzt buchen</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="booking.js"></script>
+</body>
+</html>

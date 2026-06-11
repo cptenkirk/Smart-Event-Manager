@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menü Auswahl</title>
+    <link rel="stylesheet" href="index.source/layout.css">
+    <link rel="stylesheet" href="index.source/prompt-layout.css">
+    <style>
+       
+    </style>
+</head>
+<body  style="background-color: #eee;">
+    <img src="index.source/dillogo.png" alt="dillogo" style="width: 100px; height: auto; position: absolute; top: 20px; left: 25px; z-index: 1000; user-select: none;">
+    <div style="position: absolute; top: 20px; left: 140px; z-index: 1000; user-select: none;">
+        <img src="index.source/m2c.jpg" alt="m2c" style="width: 110px; height: auto;">
+        <p style="font-size: 14px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Institut für angewandte <br> Medienforschung GmbH</p>
+    </div>
+
+    <div class="raggy-container">
+        <div class="speech-bubble">
+            Hey! ich bin Raggy! Frag mich etwas!
+        </div>
+        <img src="index.source/Raggy.png" alt="Raggy" style="background-color: #004284; width: 250px; height: 250px; border-radius: 50%; box-shadow: 0 10px 8px rgba(0, 0, 0, 0.2);">
+    </div>
+
+    <div class="menu-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); user-select: none;">
+        <ul id="main-menu" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color: #ffffff;">
+            <li data-value="1"><h3>Virtual-Reality</h3></li>
+            <li data-value="2"><h3>stelle Raggy eine Frage</h3></li>
+            <li data-value="3"><h3>Veranstaltungen</h3></li>
+            <li data-value="4"><h3>Open-Labs</h3></li>
+            <li data-value="5"><h3>3D-Drucken</h3></li>
+            <li data-value="6"><h3>KI-Workshops</h3></li>
+            <li data-value="7"><h3>CAD-Design</h3></li>
+            <li data-value="8"><h3>Direkt buchen</h3></li>
+        </ul>
+    </div>
+  
+    <!-- <div id="selection-output">Bitte wählen Sie ein Menü aus.</div> -->
+
+    <!-- Modal für das Buchungsfenster -->
+    <div id="bookingIframeModal" class="iframe-modal-overlay">
+        <div class="iframe-modal-content">
+            <span class="close-iframe-btn" id="closeIframe">&times;</span>
+            <!-- Iframe lädt die externe Buchungsseite -->
+            <iframe src="index.source/booking.html" width="100%" height="600px" style="border:none; border-radius: 4px;"></iframe>
+        </div>
+    </div>
+
+    <!-- Modal für das Chatfenster -->
+    <div id="raggyChatModal" class="chat-modal-overlay">
+        <div class="chat-modal-content">
+            <span class="close-chat-btn" id="closeChat">&times;</span>
+            <h2>Chat mit Raggy</h2>
+            <div id="chatBox" class="chat-box">
+                <div class="chat-message raggy">
+                    Hallo! Ich bin Raggy. Wie kann ich dir heute helfen?
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Stelle eine Frage..." />
+                <button id="sendChatBtn">Senden</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuItems = document.querySelectorAll('#main-menu li');
+            const bookingModal = document.getElementById('bookingIframeModal');
+            const closeIframeBtn = document.getElementById('closeIframe');
+            const raggyChatModal = document.getElementById('raggyChatModal');
+            const closeChatBtn = document.getElementById('closeChat');
+            const sendChatBtn = document.getElementById('sendChatBtn');
+            const chatInput = document.getElementById('chatInput');
+            const chatBox = document.getElementById('chatBox');
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    if (item.dataset.value === "8") {
+                        bookingModal.style.display = 'flex';
+                    }
+                    
+                    if (item.dataset.value === "2") {
+                        raggyChatModal.style.display = 'flex';
+                    }
+                });
+            });
+
+            closeIframeBtn.addEventListener('click', () => {
+                bookingModal.style.display = 'none';
+            });
+
+            closeChatBtn.addEventListener('click', () => {
+                raggyChatModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target === bookingModal) {
+                    bookingModal.style.display = 'none';
+                }
+                if (event.target === raggyChatModal) {
+                    raggyChatModal.style.display = 'none';
+                }
+            });
+
+            // Chat Senden Logik mit n8n-Anbindung und JSON-Bereinigung
+            async function sendMessage() {
+                const messageText = chatInput.value.trim();
+                if (messageText !== "") {
+                    // 1. User Message im UI hinzufügen
+                    const userMessageDiv = document.createElement('div');
+                    userMessageDiv.classList.add('chat-message', 'user');
+                    userMessageDiv.textContent = messageText;
+                    chatBox.appendChild(userMessageDiv);
+                    chatInput.value = '';
+                    chatBox.scrollTop = chatBox.scrollHeight;
+
+                    // 2. Ein temporäres "Raggy tippt..."-Feld anzeigen
+                    const loadingDiv = document.createElement('div');
+                    loadingDiv.classList.add('chat-message', 'raggy');
+                    loadingDiv.id = 'raggy-loading';
+                    loadingDiv.textContent = "Raggy überlegt...";
+                    chatBox.appendChild(loadingDiv);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+
+                    try {
+                        // 3. FETCH AN DEN n8n WEBHOOK
+                        const response = await fetch('https://n8n.aifellers.com/webhook/130420e6-8e23-499b-b430-eb3d8162fff0', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ 
+                                chatInput: messageText
+                            })
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Netzwerk-Antwort war nicht ok');
+                        }
+
+                        const responseText = await response.text();
+                        let displayMessage = "";
+
+                        try {
+                            if (responseText) {
+                                let data = JSON.parse(responseText);
+                                
+                                // Falls n8n ein Array schickt: [{"response": "..."}] -> nimm das erste Element
+                                if (Array.isArray(data)) {
+                                    data = data[0];
+                                }
+                                
+                                // Extrahiere den reinen Text aus den typischen n8n/Ollama-Feldern
+                                displayMessage = data.response || data.output || (typeof data === 'string' ? data : JSON.stringify(data));
+                            } else {
+                                displayMessage = "Keine Antwort von Raggy erhalten.";
+                            }
+                        } catch (e) {
+                            // Falls die Antwort kein JSON war, zeige den Text direkt an
+                            displayMessage = responseText || "Keine Antwort von Raggy erhalten.";
+                        }
+                        
+                        // 4. Lade-Anzeige entfernen
+                        const loadingElement = document.getElementById('raggy-loading');
+                        if (loadingElement) loadingElement.remove();
+
+                        // 5. Echte, saubere KI-Antwort im UI anzeigen
+                        const raggyMessageDiv = document.createElement('div');
+                        raggyMessageDiv.classList.add('chat-message', 'raggy');
+                        raggyMessageDiv.textContent = displayMessage;
+                        chatBox.appendChild(raggyMessageDiv);
+                        chatBox.scrollTop = chatBox.scrollHeight;
+
+                    } catch (error) {
+                        console.error('Fehler beim Webhook-Fetch:', error);
+                        const loadingElement = document.getElementById('raggy-loading');
+                        if (loadingElement) loadingElement.remove();
+                        
+                        const errorDiv = document.createElement('div');
+                        errorDiv.classList.add('chat-message', 'raggy');
+                        errorDiv.style.color = 'red';
+                        errorDiv.textContent = "Ups! Ich konnte keine Verbindung zu meinem Gehirn aufbauen.";
+                        chatBox.appendChild(errorDiv);
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                }
+            }
+
+            sendChatBtn.addEventListener('click', sendMessage);
+
+            chatInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
