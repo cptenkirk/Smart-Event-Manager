@@ -21,7 +21,7 @@
         <div class="speech-bubble">
             Hey! ich bin Raggy! Frag mich etwas!
         </div>
-        <img src="index.source/Raggy.png" alt="Raggy" style="background-color: #004284; width: 250px; height: 250px; border-radius: 50%; box-shadow: 0 10px 8px rgba(0, 0, 0, 0.2);">
+        <img id="raggyImage" src="index.source/Raggy.png" alt="Raggy" style="background-color: #004284; width: 250px; height: 250px; border-radius: 50%; box-shadow: 0 10px 8px rgba(0, 0, 0, 0.2); cursor: pointer;">
     </div>
 
     <div class="menu-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); user-select: none;">
@@ -75,6 +75,7 @@
             const sendChatBtn = document.getElementById('sendChatBtn');
             const chatInput = document.getElementById('chatInput');
             const chatBox = document.getElementById('chatBox');
+            const raggyImage = document.getElementById('raggyImage');
 
             menuItems.forEach(item => {
                 item.addEventListener('click', () => {
@@ -89,6 +90,11 @@
                         raggyChatModal.style.display = 'flex';
                     }
                 });
+            });
+            
+            // Raggy Bild anklickbar machen
+            raggyImage.addEventListener('click', () => {
+                raggyChatModal.style.display = 'flex';
             });
 
             closeIframeBtn.addEventListener('click', () => {
