@@ -33,15 +33,15 @@ Die Anwendung ist modular aufgebaut:
 
 ## n8n-Backend Screenshots
 
-- Vectoring
+## Vectoring
 
 <img width="1908" height="914" alt="image" src="https://github.com/user-attachments/assets/cc2f4553-1737-44a7-9ef6-878a6eb356f3" />
 
-- Ollama-Assistant
+## Ollama-Assistant
 
 <img width="1913" height="919" alt="image" src="https://github.com/user-attachments/assets/3f9c954f-be7b-424e-bbde-69e442abf259" />
 
-- Booking, Database, SMTP and Post
+## Booking, Database, SMTP and HTTP-Request( for OpenProject)
 
 <img width="1912" height="916" alt="image" src="https://github.com/user-attachments/assets/80338a44-2f91-4bff-81f5-5689befd6347" />
 
