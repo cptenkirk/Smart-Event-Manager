@@ -138,8 +138,10 @@
                         // 3. FETCH AN DEN n8n WEBHOOK
                         const response = await fetch('https://n8n.aifellers.com/webhook/130420e6-8e23-499b-b430-eb3d8162fff0', {
                             method: 'POST',
+                            mode: 'cors',
                             headers: {
-                                'Content-Type': 'application/json'
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
                             },
                             body: JSON.stringify({ 
                                 chatInput: messageText
